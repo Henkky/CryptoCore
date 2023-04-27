@@ -169,7 +169,8 @@ public class WalletBalanceService {
                 (walletBalanceDTO.getUserId(), walletBalanceDTO.getCurrency());
         if(!checkWalletBalance.isStatus()){
             response.setStatus(false);
-            response.setMessage("Data does not exist");
+            response.setMessage(checkWalletBalance.getMessage());
+
         } else {
             WalletBalance walletBalance = checkWalletBalance.getData();
             BigDecimal amount = new BigDecimal(walletBalanceDTO.getBalance());
@@ -190,7 +191,7 @@ public class WalletBalanceService {
                 (walletBalanceDTO.getUserId(), walletBalanceDTO.getCurrency());
         if(!checkWalletBalance.isStatus()){
             response.setStatus(false);
-            response.setMessage("Data does not exist");
+            response.setMessage(checkWalletBalance.getMessage());
         } else {
             WalletBalance walletBalance = checkWalletBalance.getData();
             BigDecimal amount = new BigDecimal(walletBalanceDTO.getBalance());

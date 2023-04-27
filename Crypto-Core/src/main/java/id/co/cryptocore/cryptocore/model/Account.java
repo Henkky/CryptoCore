@@ -23,6 +23,9 @@ public class Account {
     @Column(name = "email", length = 40)
     private String email;
 
+    @Column(name = "password", length = 80)
+    private String password;
+
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Wallet wallet;
