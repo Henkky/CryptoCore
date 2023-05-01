@@ -26,6 +26,7 @@ public class AccountService {
             newAccount.setId(accountDTO.getUserId());
             newAccount.setName(accountDTO.getName());
             newAccount.setEmail(accountDTO.getEmail());
+            newAccount.setPassword(accountDTO.getPassword());
             newAccount.setWallet(null);
             accountRepository.save(newAccount);
             response.setStatus(true);
@@ -46,6 +47,7 @@ public class AccountService {
             updAccount.setId(accountDTO.getUserId());
             updAccount.setName(accountDTO.getName());
             updAccount.setEmail(accountDTO.getEmail());
+            updAccount.setPassword(accountDTO.getPassword());
             updAccount.setWallet(updAccount.getWallet());
             accountRepository.save(updAccount);
             response.setStatus(true);

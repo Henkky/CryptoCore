@@ -16,10 +16,10 @@ import java.math.BigDecimal;
 @Service
 public class TransactionService {
     @Autowired
-    CurrencyService currencyService;
+    private CurrencyService currencyService;
 
     @Autowired
-    WalletBalanceService walletBalanceService;
+    private WalletBalanceService walletBalanceService;
 
     @Transactional
     public ApiResponse<String> currencyTransaction(TransactionDTO transactionDTO){

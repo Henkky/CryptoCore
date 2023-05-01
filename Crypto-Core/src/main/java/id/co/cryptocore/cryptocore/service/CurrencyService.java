@@ -1,8 +1,8 @@
 package id.co.cryptocore.cryptocore.service;
 
-import id.co.cryptocore.cryptocore.model.Account;
 import id.co.cryptocore.cryptocore.model.Currency;
 import id.co.cryptocore.cryptocore.model.DTO.CurrencyDTO;
+import id.co.cryptocore.cryptocore.model.DTO.CurrencyRateDTO;
 import id.co.cryptocore.cryptocore.repository.CurrencyRepository;
 import id.co.cryptocore.cryptocore.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,21 +102,21 @@ public class CurrencyService {
         return response;
     }
 
-    public ApiResponse<Currency> updateCurrencyRate(String symbol, String inpRate){
+    public ApiResponse<Currency> updateCurrencyRate(CurrencyRateDTO currencyRateDTO){
         ApiResponse<Currency> response = new ApiResponse<>();
         Optional<Currency> checkCurrency = currencyRepository.findCurrencyBySymbolEqualsIgnoreCase
-                (symbol);
+                (currencyRateDTO.getSymbol());
         if(checkCurrency.isEmpty()){
             response.setStatus(false);
-            response.setMessage("Currency " + symbol + " not found");
+            response.setMessage("Currency " + currencyRateDTO.getSymbol() + " not found");
         }else {
             Currency updCurrency = checkCurrency.get();
-            BigDecimal newRate = new BigDecimal(inpRate);
+            BigDecimal newRate = new BigDecimal(currencyRateDTO.getRate());
             updCurrency.setRate(newRate);
             currencyRepository.save(updCurrency);
 
             response.setStatus(true);
-            response.setMessage("Currency " + symbol + " rate successfully updated");
+            response.setMessage("Currency " + currencyRateDTO.getSymbol() + " rate successfully updated");
             response.setData(updCurrency);
         }
         return response;

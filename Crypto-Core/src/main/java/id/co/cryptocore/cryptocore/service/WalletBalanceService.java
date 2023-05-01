@@ -20,16 +20,16 @@ import java.util.Optional;
 @Service
 public class WalletBalanceService {
     @Autowired
-    WalletBalanceRepository walletBalanceRepository;
+    private WalletBalanceRepository walletBalanceRepository;
 
     @Autowired
-    WalletRepository walletRepository;
+    private WalletRepository walletRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    CurrencyRepository currencyRepository;
+    private CurrencyRepository currencyRepository;
 
     public ApiResponse<WalletBalance> createWalletBalance(WalletBalanceDTO walletBalanceDTO){
         ApiResponse<WalletBalance> response = new ApiResponse<>();
