@@ -28,7 +28,7 @@ public class Wallet {
 
     @OneToMany(mappedBy = "wallet",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    @JsonSerialize(contentUsing = CurrencySymbolSerializer.class)
+    //@JsonSerialize(contentUsing = CurrencySymbolSerializer.class)
     private List<WalletBalance> balances = new ArrayList<>();
 
 }

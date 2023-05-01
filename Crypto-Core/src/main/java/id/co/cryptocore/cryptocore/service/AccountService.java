@@ -44,7 +44,6 @@ public class AccountService {
             response.setMessage("Account " + accountDTO.getUserId() + " does not exist");
         }else {
             Account updAccount = checkAccount.get();
-            updAccount.setId(accountDTO.getUserId());
             updAccount.setName(accountDTO.getName());
             updAccount.setEmail(accountDTO.getEmail());
             updAccount.setPassword(accountDTO.getPassword());
@@ -64,10 +63,16 @@ public class AccountService {
             response.setStatus(false);
             response.setMessage("Account " + userId + " does not exist");
         }else {
-            accountRepository.delete(checkAccount.get());
-            response.setStatus(true);
-            response.setMessage("Account " + userId + " successfully deleted");
-            response.setData(checkAccount.get());
+            Account account = checkAccount.get();
+            if(account.getWallet() == null){
+                accountRepository.delete(account);
+                response.setStatus(true);
+                response.setMessage("Account " + userId + " successfully deleted");
+                response.setData(account);
+            } else {
+                response.setStatus(false);
+                response.setMessage("Account " + userId + " still have a wallet");
+            }
         }
         return response;
     }
@@ -95,10 +100,5 @@ public class AccountService {
         return response;
     }
 
-    public void linkAccountAndWallet(String userId, Wallet wallet){
-        Account account = accountRepository.findById(userId).get();
-        account.setWallet(wallet);
-        accountRepository.save(account);
-    }
 
 }

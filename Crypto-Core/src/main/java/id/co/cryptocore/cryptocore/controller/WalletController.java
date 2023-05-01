@@ -1,6 +1,7 @@
 package id.co.cryptocore.cryptocore.controller;
 
 import id.co.cryptocore.cryptocore.model.DTO.WalletBalanceDTO;
+import id.co.cryptocore.cryptocore.model.DTO.WalletBalanceRegisDTO;
 import id.co.cryptocore.cryptocore.model.Wallet;
 import id.co.cryptocore.cryptocore.model.WalletBalance;
 import id.co.cryptocore.cryptocore.service.WalletBalanceService;
@@ -42,8 +43,8 @@ public class WalletController {
 
 
     @PostMapping("/balance/register")
-    public ApiResponse<WalletBalance> registerWalletBalance(@RequestBody WalletBalanceDTO walletBalanceDTO){
-        return walletBalanceService.createWalletBalance(walletBalanceDTO);
+    public ApiResponse<WalletBalance> registerWalletBalance(@RequestBody WalletBalanceRegisDTO walletBalanceRegisDTO){
+        return walletBalanceService.createWalletBalance(walletBalanceRegisDTO);
     }
 
     @PutMapping("/balance/add")
@@ -54,6 +55,11 @@ public class WalletController {
     @PutMapping("/balance/deduct")
     public ApiResponse<WalletBalance> deductWalletBalance(@RequestBody WalletBalanceDTO walletBalanceDTO){
         return walletBalanceService.deductBalance(walletBalanceDTO);
+    }
+
+    @DeleteMapping("/{userid}")
+    public ApiResponse<Wallet> deleteWalletByUserId(@PathVariable("userid") String userid){
+        return walletService.deleteWalletByUserId(userid);
     }
 
 }

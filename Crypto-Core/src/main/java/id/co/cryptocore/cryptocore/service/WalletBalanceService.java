@@ -3,6 +3,7 @@ package id.co.cryptocore.cryptocore.service;
 import id.co.cryptocore.cryptocore.model.Account;
 import id.co.cryptocore.cryptocore.model.Currency;
 import id.co.cryptocore.cryptocore.model.DTO.WalletBalanceDTO;
+import id.co.cryptocore.cryptocore.model.DTO.WalletBalanceRegisDTO;
 import id.co.cryptocore.cryptocore.model.Wallet;
 import id.co.cryptocore.cryptocore.model.WalletBalance;
 import id.co.cryptocore.cryptocore.repository.AccountRepository;
@@ -31,18 +32,18 @@ public class WalletBalanceService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
-    public ApiResponse<WalletBalance> createWalletBalance(WalletBalanceDTO walletBalanceDTO){
+    public ApiResponse<WalletBalance> createWalletBalance(WalletBalanceRegisDTO walletBalanceRegisDTO){
         ApiResponse<WalletBalance> response = new ApiResponse<>();
         boolean isError = false;
         Account account = new Account();
         Wallet wallet = new Wallet();
         Currency currency = new Currency();
 
-        Optional<Account> checkAccount = accountRepository.findById(walletBalanceDTO.getUserId());
+        Optional<Account> checkAccount = accountRepository.findById(walletBalanceRegisDTO.getUserId());
         if(checkAccount.isEmpty()){
             response.setStatus(false);
             response.setMessage("Insert new balance failed. Account "
-                    + walletBalanceDTO.getUserId()
+                    + walletBalanceRegisDTO.getUserId()
                     + " does not exist");
             isError = true;
         }
@@ -53,7 +54,7 @@ public class WalletBalanceService {
             if(wallet == null){
                 response.setStatus(false);
                 response.setMessage("Insert new balance failed. Account "
-                        + walletBalanceDTO.getUserId()
+                        + walletBalanceRegisDTO.getUserId()
                         + " does not have a wallet");
                 isError = true;
             }
@@ -64,10 +65,10 @@ public class WalletBalanceService {
             Currency checkCurrencyExist = new Currency();
             for (WalletBalance e: existBalancesInWallet) {
                 checkCurrencyExist = e.getCurrency();
-                if(checkCurrencyExist.getSymbol().equalsIgnoreCase(walletBalanceDTO.getCurrency())){
+                if(checkCurrencyExist.getSymbol().equalsIgnoreCase(walletBalanceRegisDTO.getCurrency())){
                     response.setStatus(false);
                     response.setMessage("Insert new balance failed. Currency "
-                            + walletBalanceDTO.getCurrency()
+                            + walletBalanceRegisDTO.getCurrency()
                             + " already exists");
                     isError = true;
                     break;
@@ -77,11 +78,11 @@ public class WalletBalanceService {
 
         if(!isError){
             Optional<Currency> checkCurrency = currencyRepository.findCurrencyBySymbolEqualsIgnoreCase
-                    (walletBalanceDTO.getCurrency());
+                    (walletBalanceRegisDTO.getCurrency());
             if(checkCurrency.isEmpty()){
                 response.setStatus(false);
                 response.setMessage("Insert new balance failed. Currency "
-                        + walletBalanceDTO.getCurrency()
+                        + walletBalanceRegisDTO.getCurrency()
                         + " invalid");
                 isError = true;
             } else {
@@ -93,7 +94,7 @@ public class WalletBalanceService {
             WalletBalance newWalletBalance = new WalletBalance();
             newWalletBalance.setWallet(wallet);
             newWalletBalance.setCurrency(currency);
-            BigDecimal newBalance = new BigDecimal(walletBalanceDTO.getBalance());
+            BigDecimal newBalance = new BigDecimal(0);
             newWalletBalance.setBalance(newBalance);
             walletBalanceRepository.save(newWalletBalance);
 
@@ -111,9 +112,8 @@ public class WalletBalanceService {
 
             response.setStatus(true);
             response.setMessage("Insert new balance success for "
-                    +"User " + walletBalanceDTO.getUserId()
-                    +"on " + walletBalanceDTO.getCurrency() + "currency"
-                    +"with amount of " + walletBalanceDTO.getBalance());
+                    +"User " + walletBalanceRegisDTO.getUserId()
+                    +" on " + walletBalanceRegisDTO.getCurrency() + " currency");
         }
 
         return response;

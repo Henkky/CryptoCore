@@ -2,6 +2,8 @@ package id.co.cryptocore.cryptocore.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import id.co.cryptocore.cryptocore.model.Serializer.CurrencySymbolSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +28,7 @@ public class WalletBalance {
     @ManyToOne
     @JoinColumn(name = "currency_id", referencedColumnName = "currency_id")
     @JsonManagedReference
+    @JsonSerialize(contentUsing = CurrencySymbolSerializer.class)
     private Currency currency;
 
     @Column(name = "balance", nullable = false, precision = 15, scale = 10)

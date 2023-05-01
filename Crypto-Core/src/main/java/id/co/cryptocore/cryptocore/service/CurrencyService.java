@@ -50,7 +50,6 @@ public class CurrencyService {
         }else {
             Currency updCurrency = checkCurrency.get();
             updCurrency.setName(currencyDTO.getName());
-            updCurrency.setSymbol(currencyDTO.getSymbol());
             BigDecimal newRate = new BigDecimal(currencyDTO.getRate());
             updCurrency.setRate(newRate);
             currencyRepository.save(updCurrency);
@@ -70,10 +69,11 @@ public class CurrencyService {
             response.setStatus(false);
             response.setMessage("Currency " + symbol + " not found");
         }else {
-            currencyRepository.delete(checkCurrency.get());
+            Currency currency = checkCurrency.get();
+            currencyRepository.delete(currency);
             response.setStatus(true);
-            response.setMessage("Currency " + symbol + " successfully deleted");
-            response.setData(checkCurrency.get());
+            response.setMessage("Currency " + currency.getSymbol() + " successfully deleted");
+            response.setData(currency);
         }
         return response;
     }
