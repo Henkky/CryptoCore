@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -118,6 +119,40 @@ public class CurrencyService {
             response.setMessage("Currency " + symbol + " rate successfully updated");
             response.setData(updCurrency);
         }
+        return response;
+    }
+
+    public ApiResponse<BigDecimal> convert(String amount, String symbolFrom, String symbolTo){
+        ApiResponse<BigDecimal> response = new ApiResponse<>();
+        BigDecimal result = new BigDecimal(0);
+        BigDecimal amountNum = new BigDecimal(amount);
+        Currency currencyFrom = new Currency();
+        Currency currencyTo = new Currency();
+
+        //to get the currency class of the source (symbolFrom)
+        Optional<Currency> checkCurrency = currencyRepository.findCurrencyBySymbolEqualsIgnoreCase(symbolFrom);
+        if(checkCurrency.isEmpty()){
+            response.setStatus(false);
+            response.setMessage("Currency " + symbolFrom + " not found");
+            return response;
+        } else{
+            currencyFrom = checkCurrency.get();
+        }
+
+        //to get the currency class of the destination (symbolTo)
+        checkCurrency = currencyRepository.findCurrencyBySymbolEqualsIgnoreCase(symbolTo);
+        if(checkCurrency.isEmpty()){
+            response.setStatus(false);
+            response.setMessage("Currency " + symbolTo + " not found");
+            return response;
+        } else{
+            currencyTo = checkCurrency.get();
+        }
+
+        amountNum = amountNum.multiply(currencyFrom.getRate());
+        //https://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html
+        result = amountNum.divide(currencyTo.getRate(),10, RoundingMode.HALF_UP);
+        response.setData(result);
         return response;
     }
 }
