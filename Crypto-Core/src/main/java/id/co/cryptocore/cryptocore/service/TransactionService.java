@@ -31,11 +31,14 @@ public class TransactionService {
                                         transactionDTO.getSellerCurrency(),
                                         transactionDTO.getBuyerCurrency());
 
+        System.out.println("convert result : " + convertResult.isStatus());
         if(!convertResult.isStatus()){
             response.setStatus(false);
             response.setMessage(convertResult.getMessage());
+            return response;
         } else{
             balanceNeeded = convertResult.getData();
+
         }
 
         WalletBalanceDTO transBalanceDTO = new WalletBalanceDTO();
@@ -90,9 +93,9 @@ public class TransactionService {
         }
 
         String notif = transactionDTO.getAmount() + " of " + transactionDTO.getSellerCurrency() +
-                        "successfully transferred to " + transactionDTO.getBuyerId() + " wallet for " +
+                        " successfully transferred to " + transactionDTO.getBuyerId() + " wallet for " +
                         balanceNeeded.toString() + " of " + transactionDTO.getBuyerCurrency() +
-                        "in payment.";
+                        " in payment.";
         response.setStatus(true);
         response.setMessage("Transaction successful !");
         response.setData(notif);

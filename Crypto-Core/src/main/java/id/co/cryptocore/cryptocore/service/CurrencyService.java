@@ -152,6 +152,8 @@ public class CurrencyService {
         amountNum = amountNum.multiply(currencyFrom.getRate());
         //https://docs.oracle.com/javase/7/docs/api/java/math/RoundingMode.html
         result = amountNum.divide(currencyTo.getRate(),10, RoundingMode.HALF_UP);
+        response.setStatus(true);
+        response.setMessage("Successfully converted");
         response.setData(result);
         return response;
     }
