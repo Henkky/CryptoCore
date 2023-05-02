@@ -94,7 +94,7 @@ public class WalletBalanceService {
             WalletBalance newWalletBalance = new WalletBalance();
             newWalletBalance.setWallet(wallet);
             newWalletBalance.setCurrency(currency);
-            BigDecimal newBalance = new BigDecimal(0);
+            BigDecimal newBalance = BigDecimal.ZERO;
             newWalletBalance.setBalance(newBalance);
             walletBalanceRepository.save(newWalletBalance);
 

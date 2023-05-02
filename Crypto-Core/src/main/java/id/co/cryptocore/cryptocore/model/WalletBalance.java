@@ -31,7 +31,7 @@ public class WalletBalance {
     @JsonSerialize(contentUsing = CurrencySymbolSerializer.class)
     private Currency currency;
 
-    @Column(name = "balance", nullable = false, precision = 15, scale = 10)
+    @Column(name = "balance", nullable = false, precision = 20, scale = 10)
     private BigDecimal balance;
 
     public boolean isEnoughBalance(BigDecimal amount){

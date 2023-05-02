@@ -25,7 +25,7 @@ public class Currency {
     @Column(name = "symbol", nullable = false, unique = true, length = 3)
     private String symbol;
 
-    @Column(name = "rate", nullable = false, precision = 15, scale = 10)
+    @Column(name = "rate", nullable = false, precision = 20, scale = 10)
     private BigDecimal rate;
 
     @OneToMany(mappedBy = "currency")
