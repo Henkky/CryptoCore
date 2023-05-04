@@ -2,6 +2,7 @@ package id.co.cryptocore.cryptocore.controller;
 
 import id.co.cryptocore.cryptocore.model.Account;
 import id.co.cryptocore.cryptocore.model.DTO.AccountDTO;
+import id.co.cryptocore.cryptocore.model.DTO.AccountSecurityDTO;
 import id.co.cryptocore.cryptocore.model.Wallet;
 import id.co.cryptocore.cryptocore.service.AccountService;
 import id.co.cryptocore.cryptocore.service.WalletService;
@@ -28,8 +29,13 @@ public class AccountController {
     }
 
     @GetMapping("/{userid}")
-    public ApiResponse<Account> findAccountByUserId(@PathVariable("userid") String userid){
-        return accountService.getAccountById(userid);
+    public ApiResponse<Account> findAccountByUserId(@PathVariable("userid") String userId){
+        return accountService.getAccountById(userId);
+    }
+
+    @GetMapping("/identify/{userid}")
+    public ApiResponse<AccountSecurityDTO> findAccountByUserIdForSecurity(@PathVariable("userid") String userId){
+        return accountService.getAccountForSecurity(userId);
     }
 
     @PostMapping("/register")
@@ -45,7 +51,7 @@ public class AccountController {
     }
 
     @DeleteMapping("/{userid}")
-    public ApiResponse<Account> deleteAccount(@PathVariable("userid") String userid){
-        return accountService.deleteAccount(userid);
+    public ApiResponse<Account> deleteAccount(@PathVariable("userid") String userId){
+        return accountService.deleteAccount(userId);
     }
 }

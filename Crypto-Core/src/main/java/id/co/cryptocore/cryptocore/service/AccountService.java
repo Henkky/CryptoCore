@@ -2,7 +2,7 @@ package id.co.cryptocore.cryptocore.service;
 
 import id.co.cryptocore.cryptocore.model.Account;
 import id.co.cryptocore.cryptocore.model.DTO.AccountDTO;
-import id.co.cryptocore.cryptocore.model.Wallet;
+import id.co.cryptocore.cryptocore.model.DTO.AccountSecurityDTO;
 import id.co.cryptocore.cryptocore.repository.AccountRepository;
 import id.co.cryptocore.cryptocore.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,12 @@ public class AccountService {
             newAccount.setName(accountDTO.getName());
             newAccount.setEmail(accountDTO.getEmail());
             newAccount.setPassword(accountDTO.getPassword());
+            if(accountDTO.getUserId().equalsIgnoreCase("admin") ||
+                    accountDTO.getUserId().equalsIgnoreCase("seller")){
+                newAccount.setRole("admin");
+            } else {
+                newAccount.setRole("user");
+            }
             newAccount.setWallet(null);
             accountRepository.save(newAccount);
             response.setStatus(true);
@@ -47,7 +53,6 @@ public class AccountService {
             updAccount.setName(accountDTO.getName());
             updAccount.setEmail(accountDTO.getEmail());
             updAccount.setPassword(accountDTO.getPassword());
-            updAccount.setWallet(updAccount.getWallet());
             accountRepository.save(updAccount);
             response.setStatus(true);
             response.setMessage("Account " + accountDTO.getUserId() + " successfully updated");
@@ -96,6 +101,21 @@ public class AccountService {
             response.setStatus(true);
             response.setMessage("Account " + userId + " successfully retrieved");
             response.setData(checkAccount.get());
+        }
+        return response;
+    }
+
+    public ApiResponse<AccountSecurityDTO> getAccountForSecurity(String userId){
+        ApiResponse<AccountSecurityDTO> response = new ApiResponse<>();
+        Optional<Account> checkAccount = accountRepository.findById(userId);
+        if(checkAccount.isEmpty()){
+            response.setStatus(false);
+            response.setMessage("Account " + userId + " does not exist");
+        }else {
+            response.setStatus(true);
+            response.setMessage("Account " + userId + " successfully retrieved for security purpose");
+            AccountSecurityDTO accountSecurityDTO = new AccountSecurityDTO(checkAccount.get());
+            response.setData(accountSecurityDTO);
         }
         return response;
     }
