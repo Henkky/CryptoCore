@@ -2,8 +2,6 @@ package id.co.cryptocore.cryptocore.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import id.co.cryptocore.cryptocore.model.Serializer.CurrencySymbolSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

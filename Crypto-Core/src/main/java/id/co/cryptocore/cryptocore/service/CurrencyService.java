@@ -104,8 +104,8 @@ public class CurrencyService {
 
     public ApiResponse<Currency> updateCurrencyRate(CurrencyRateDTO currencyRateDTO){
         ApiResponse<Currency> response = new ApiResponse<>();
-        Optional<Currency> checkCurrency = currencyRepository.findCurrencyBySymbolEqualsIgnoreCase
-                (currencyRateDTO.getSymbol());
+        Optional<Currency> checkCurrency = currencyRepository
+                    .findCurrencyBySymbolEqualsIgnoreCase(currencyRateDTO.getSymbol());
         if(checkCurrency.isEmpty()){
             response.setStatus(false);
             response.setMessage("Currency " + currencyRateDTO.getSymbol() + " not found");

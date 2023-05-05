@@ -51,7 +51,11 @@ public class TransactionService {
         transResult = walletBalanceService.deductBalance(transBalanceDTO);
         if(!transResult.isStatus()){
             response.setStatus(false);
-            response.setMessage(transResult.getMessage());
+            if(transResult.getMessage().equalsIgnoreCase("Insufficient balance")){
+                response.setMessage("Buyer does not have enough " + transactionDTO.getBuyerCurrency() + " balance");
+            } else {
+                response.setMessage(transResult.getMessage());
+            }
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }
@@ -63,7 +67,11 @@ public class TransactionService {
         transResult = walletBalanceService.deductBalance(transBalanceDTO);
         if(!transResult.isStatus()){
             response.setStatus(false);
-            response.setMessage(transResult.getMessage());
+            if(transResult.getMessage().equalsIgnoreCase("Insufficient balance")){
+                response.setMessage("Seller does not have enough " + transactionDTO.getSellerCurrency() + " balance");
+            } else {
+                response.setMessage(transResult.getMessage());
+            }
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }

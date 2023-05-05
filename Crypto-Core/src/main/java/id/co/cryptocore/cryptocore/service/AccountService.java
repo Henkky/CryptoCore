@@ -30,10 +30,8 @@ public class AccountService {
             if(accountDTO.getUserId().equalsIgnoreCase("admin") ||
                     accountDTO.getUserId().equalsIgnoreCase("seller")){
                 newAccount.setRole("admin");
-//                newAccount.setRole("ROLE_ADMIN");
             } else {
                 newAccount.setRole("user");
-//                newAccount.setRole("ROLE_USER");
             }
             newAccount.setWallet(null);
             accountRepository.save(newAccount);
