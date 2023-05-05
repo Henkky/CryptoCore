@@ -41,7 +41,9 @@ public class AccountController {
     @PostMapping("/register")
     public ApiResponse<Account> registerAccount(@RequestBody AccountDTO accountDTO){
         ApiResponse<Account> accountResponse = accountService.createAccount(accountDTO);
-        ApiResponse<Wallet> walletResponse = walletService.createWallet(accountDTO.getUserId());
+        if(accountResponse.isStatus()){
+            ApiResponse<Wallet> walletResponse = walletService.createWallet(accountDTO.getUserId());
+        }
         return accountResponse;
     }
 

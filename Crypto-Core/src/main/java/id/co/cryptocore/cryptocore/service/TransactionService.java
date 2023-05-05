@@ -3,8 +3,6 @@ package id.co.cryptocore.cryptocore.service;
 import id.co.cryptocore.cryptocore.model.DTO.TransactionDTO;
 import id.co.cryptocore.cryptocore.model.DTO.WalletBalanceDTO;
 import id.co.cryptocore.cryptocore.model.WalletBalance;
-import id.co.cryptocore.cryptocore.repository.AccountRepository;
-import id.co.cryptocore.cryptocore.repository.WalletBalanceRepository;
 import id.co.cryptocore.cryptocore.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +24,12 @@ public class TransactionService {
         ApiResponse<String> response = new ApiResponse<>();
         BigDecimal balanceNeeded = new BigDecimal(0);
 
+        //convert value of how much the buyer need to pay using buyer currency
         ApiResponse<BigDecimal> convertResult =
                 currencyService.convert(transactionDTO.getAmount(),
                                         transactionDTO.getSellerCurrency(),
                                         transactionDTO.getBuyerCurrency());
 
-        System.out.println("convert result : " + convertResult.isStatus());
         if(!convertResult.isStatus()){
             response.setStatus(false);
             response.setMessage(convertResult.getMessage());
