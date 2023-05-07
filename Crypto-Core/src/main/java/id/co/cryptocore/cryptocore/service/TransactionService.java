@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
 @Service
 public class TransactionService {
@@ -18,6 +19,8 @@ public class TransactionService {
 
     @Autowired
     private WalletBalanceService walletBalanceService;
+
+    private Logger logger = Logger.getLogger("Transaction Service");
 
     @Transactional
     public ApiResponse<String> currencyTransaction(TransactionDTO transactionDTO){
@@ -57,6 +60,9 @@ public class TransactionService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }
+        //test transaction
+        logger.info("Deduct balance from buyer wallet : success");
+        System.out.println(transResult.getData().getBalance());
 
         //deduct the money from the seller wallet - later to be add to the buyer wallet
         transBalanceDTO.setUserId(transactionDTO.getSellerId());
@@ -73,6 +79,9 @@ public class TransactionService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }
+        //test transaction
+        logger.info("Deduct balance from seller wallet : success");
+        System.out.println(transResult.getData().getBalance());
 
         //add money to buyer wallet
         transBalanceDTO.setUserId(transactionDTO.getBuyerId());
@@ -85,6 +94,9 @@ public class TransactionService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }
+        //test transaction
+        logger.info("Add balance to buyer wallet : success");
+        System.out.println(transResult.getData().getBalance());
 
         //add money to seller wallet
         transBalanceDTO.setUserId(transactionDTO.getSellerId());
@@ -97,6 +109,9 @@ public class TransactionService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return response;
         }
+        //test transaction
+        logger.info("Add balance to seller wallet : success");
+        System.out.println(transResult.getData().getBalance());
 
         String notif = transactionDTO.getAmount() + " of " + transactionDTO.getSellerCurrency() +
                         " successfully transferred to " + transactionDTO.getBuyerId() + " wallet for " +

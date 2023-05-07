@@ -32,4 +32,8 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Wallet wallet;
+
+    public void removeWallet(Wallet wallet) {
+        this.wallet = null;
+    }
 }

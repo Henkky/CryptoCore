@@ -2,7 +2,9 @@ package id.co.cryptocore.cryptocore.service;
 
 import id.co.cryptocore.cryptocore.model.Account;
 import id.co.cryptocore.cryptocore.model.Wallet;
+import id.co.cryptocore.cryptocore.model.WalletBalance;
 import id.co.cryptocore.cryptocore.repository.AccountRepository;
+import id.co.cryptocore.cryptocore.repository.WalletBalanceRepository;
 import id.co.cryptocore.cryptocore.repository.WalletRepository;
 import id.co.cryptocore.cryptocore.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +73,8 @@ public class WalletService {
         }else{
             Account account = checkAccount.get();
             Wallet wallet = account.getWallet();
+            //https://stackoverflow.com/questions/22688402/delete-not-working-with-jparepository
+            wallet.removeAccount(account);
             walletRepository.delete(wallet);
             //to set back the wallet inside the Account class to null
             account.setWallet(null);

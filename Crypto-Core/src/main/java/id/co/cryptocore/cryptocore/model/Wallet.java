@@ -29,4 +29,8 @@ public class Wallet {
     //@JsonSerialize(contentUsing = CurrencySymbolSerializer.class)
     private List<WalletBalance> balances = new ArrayList<>();
 
+    public void removeAccount(Account account) {
+        this.account.removeWallet(this);
+        this.account = null;
+    }
 }
